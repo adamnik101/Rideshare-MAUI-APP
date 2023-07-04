@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rideshare.Pages.Auth.RegisterPage"
+             xmlns:local="clr-namespace:Rideshare.ViewModels"
+             Title="Register">
+    <ContentPage.BindingContext>
+        <local:MRegisterViewModel/>
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <VerticalStackLayout
+        Padding="20"
+        Spacing="15">
+
+            <Label 
+            Text="Register now so you can schedule your rides!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+            <Entry Text="{Binding FirstName.Value}" Placeholder="First Name"/>
+            <Label Text="{Binding FirstName.Error}" TextColor="Red" IsVisible="{Binding FirstName.HasError}" FontFamily="KanitRegular"/>
+
+            <Entry Text="{Binding LastName.Value}" Placeholder="Last Name"/>
+            <Label Text="{Binding LastName.Error}" TextColor="Red" IsVisible="{Binding LastName.HasError}" FontFamily="KanitRegular"/>
+
+            <Entry Text="{Binding Email.Value}" Placeholder="Email" Keyboard="Email"/>
+            <Label Text="{Binding Email.Error}" TextColor="Red" IsVisible="{Binding Email.HasError}" FontFamily="KanitRegular"/>
+
+            <Entry Text="{Binding PhoneNumber.Value}" Placeholder="Phone number" Keyboard="Numeric"/>
+            <Label Text="{Binding PhoneNumber.Error}" TextColor="Red" IsVisible="{Binding PhoneNumber.HasError}" FontFamily="KanitRegular"/>
+            
+            <Entry Placeholder="Password" IsPassword="True" />
+            <Label Text="Invalid credentials" TextColor="Red" IsVisible="False" FontFamily="KanitRegular"/>
+
+            <HorizontalStackLayout>
+                <Label Text="Date of birth:" FontFamily="KanitRegular" VerticalOptions="Center"/>
+                <DatePicker VerticalOptions="Center" MaximumDate="{Binding MaximumDate}" MinimumDate="{Binding MinimumDate}"/>
+            </HorizontalStackLayout>
+            
+            <Label Text="Gender:" FontFamily="KanitRegular"/>
+            <RadioButton
+            GroupName="gender" 
+            FontFamily="KanitRegular"
+            Content="Male"
+            Value="m"/>
+
+            <RadioButton 
+            GroupName="gender" 
+            FontFamily="KanitRegular"
+            Content="Female"
+            Value="f"/>
+
+            <HorizontalStackLayout
+                HorizontalOptions="Start">
+                <CheckBox IsChecked="{Binding AgreedWithTerms.Value}"/>
+                <Label VerticalTextAlignment="Center" Text="I agree with terms and conditions" FontFamily="KanitRegular"/>
+            </HorizontalStackLayout>
+            <Button Text="Done" IsEnabled="{Binding IsRegisterButtonEnabled}"/>
+        </VerticalStackLayout>
+    </ScrollView>
+   
+</ContentPage>

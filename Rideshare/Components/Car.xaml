@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="CarComponent"
+             x:Class="Rideshare.Components.Car">
+    <Frame Margin="0,7.5">
+        <Grid RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            
+            <Label Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding BrandModel}" BindingContext="{x:Reference CarComponent}"/>
+
+            <Label Grid.Row="1" Grid.Column="0" Text="License plate:"/>
+            <Label Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding LicencePlate}" BindingContext="{x:Reference CarComponent}"/>
+
+
+            <Label Grid.Row="2" Grid.Column="0" Text="Number of seats:"/>
+            <Label Grid.Row="2" Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding NumberOfSeats}" BindingContext="{x:Reference CarComponent}"/>
+
+        </Grid>
+    </Frame>
+    
+</ContentView>

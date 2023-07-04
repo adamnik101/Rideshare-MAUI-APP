@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rideshare.MainPage"
+             Title="">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+            <Image
+                Source="splash.png"
+                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                HeightRequest="400"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="Your choice of rides at low prices!"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+
+            <Button
+                x:Name="RegisterPage"
+                Text="Register now!"
+                SemanticProperties.Hint="Register to application."
+                HorizontalOptions="FillAndExpand"
+                Clicked="RegisterPage_Clicked"/>
+            
+            <Button
+                x:Name="LoginPage"
+                Text="Login"
+                SemanticProperties.Hint="Login to application."
+                Clicked="LoginPage_Clicked"
+                HorizontalOptions="FillAndExpand"
+                BackgroundColor="White" 
+                TextColor="BLue"/>
+
+           
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

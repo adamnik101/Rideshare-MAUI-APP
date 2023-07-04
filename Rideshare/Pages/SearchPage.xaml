@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Rideshare.Pages.SearchPage"
+             xmlns:local="clr-namespace:Rideshare.ViewModels"
+             xmlns:components="clr-namespace:Rideshare.Components"
+             Title="Search rides">
+    <ContentPage.BindingContext>
+        <local:RidesViewModel/>
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <VerticalStackLayout
+        Spacing="15"
+        Padding="20">
+            <VerticalStackLayout>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="85" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Ride date:" VerticalTextAlignment="Center" HorizontalOptions="Start" Grid.Column="0" Grid.Row="0"/>
+                    <DatePicker MinimumDate="{Binding Today}" Date="{Binding Date.Value}" FontFamily="KanitRegular" Grid.Column="1" Grid.Row="0"/>
+                    <Label Text="{Binding Date.Error}" Grid.ColumnSpan="2" Grid.Row="1"/>
+                    
+                    <Label Text="Ride date:" VerticalTextAlignment="Center" HorizontalOptions="Start" Grid.Column="0" Grid.Row="2"/>
+                    <Picker ItemsSource="{Binding Cities}" Title="Choose start city" Grid.Column="1" Grid.Row="2" ItemDisplayBinding="{Binding Name}" FontFamily="KanitRegular" SelectedItem="{Binding StartCity.Value}"/>
+                    <Label Text="{Binding StartCity.Error}"  Grid.ColumnSpan="2" Grid.Row="3"/>
+                    
+                    <Label Text="Ride date:" VerticalTextAlignment="Center" HorizontalOptions="Start" Grid.Column="0" Grid.Row="4"/>
+                    <Picker ItemsSource="{Binding Cities}" Title="Choose destination city" Grid.Column="1" Grid.Row="4"  ItemDisplayBinding="{Binding Name}" FontFamily="KanitRegular" SelectedItem="{Binding DestinationCity.Value}"/>
+                    <Label Text="{Binding DestinationCity.Error}"  Grid.ColumnSpan="2" Grid.Row="5"/>
+                </Grid>
+                
+                
+            </VerticalStackLayout>
+            
+            <Button Text="Search rides" Command="{Binding SearchCommand}" IsEnabled="{Binding IsSearchButtonEnabled}"/>
+            <VerticalStackLayout IsVisible="{Binding HasRides}">
+                <HorizontalStackLayout>
+                    <Label Text="{Binding PagedResponse.TotalCount, StringFormat='{0} rides available'}"/>
+                </HorizontalStackLayout>
+                <VerticalStackLayout>
+                    <CollectionView ItemsSource="{Binding Rides}" SelectionMode="Single" SelectedItem="{Binding SelectedRide}" SelectionChangedCommand="{Binding NavigateToDetailPageCommand}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <components:Ride StartCity="{Binding StartCity}" DestinationCity="{Binding DestinationCity}" 
+                                     Price="{Binding Price}"
+                                     NumberOfAvailableSeats="{Binding NumberOfAvailableSeats}"
+                                     DriverName="{Binding Driver.FirstName}"
+                                             Restrictions="{Binding Car.Restrictions}"/>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Button Text="Previous page" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding IsPreviousButtonEnabled}"/>
+                        <Button Text="Next page" Command="{Binding NextPageCommand}" IsEnabled="{Binding IsNextPageButtonEnabled}"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+                
+            </VerticalStackLayout>
+            <VerticalStackLayout HorizontalOptions="Center" IsVisible="{Binding NoItemsToShow}">
+                <Label HorizontalTextAlignment="Center" Text="{Binding SelectedDateFormat, StringFormat='There is still no rides available for {0} between these cities.'}" FontFamily="KanitRegular"/>
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label Text="{Binding SelectedStartCity}" VerticalTextAlignment="Center" FontFamily="KanitRegular"/>
+                    <Image Source="sign.png" HeightRequest="60" VerticalOptions="Start"/>
+                    <Label Text="{Binding SelectedDestinationCity}" VerticalTextAlignment="Center" FontFamily="KanitRegular"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+    
+</ContentPage>

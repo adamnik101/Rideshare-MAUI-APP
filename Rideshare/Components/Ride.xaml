@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="RideComponent"
+             x:Class="Rideshare.Components.Ride">
+    <ContentView.Resources>
+        <StyleSheet Source="/Resources/Styles/styles.css"/>
+    </ContentView.Resources>
+    <Border Margin="0, 10">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="10"/>
+        </Border.StrokeShape>
+        <FlexLayout Direction="Row" JustifyContent="SpaceBetween" StyleClass="card">
+            <StackLayout  BindingContext="{x:Reference RideComponent}">
+                <VerticalStackLayout Padding="15">
+                    <HorizontalStackLayout Spacing="10">
+                        <Image Source="pin.png" HeightRequest="20"/>
+                        <Label Text="{Binding StartCityName}" StyleClass="title" FontFamily="KanitRegular"/>
+                    </HorizontalStackLayout>
+                    <Line X1="10"
+                          Y1="0"
+                          X2="10"
+                          Y2="30"
+                          Stroke="Black"
+                          StrokeDashArray="2,4"
+                          StrokeDashOffset="10" />
+                    <HorizontalStackLayout Spacing="10">
+                        <Image Source="pin.png" HeightRequest="20"/>
+                        <Label Text="{Binding DestinationCityName}" StyleClass="details" FontFamily="KanitRegular"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="10" Margin="0, 20, 0, 0">
+                        <Border HeightRequest="40" WidthRequest="40" HorizontalOptions="Center"
+                            StrokeShape="RoundRectangle 20, 20, 20, 20" StrokeThickness="1">
+                            <Image Source="dotnet_bot.png" Aspect="AspectFill"/>
+                        </Border>
+
+                        <Label VerticalOptions="Center" Text="{Binding DriverName}" StyleClass="details" FontFamily="KanitRegular"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+            </StackLayout>
+
+            <StackLayout  BindingContext="{x:Reference RideComponent}" Padding="20" VerticalOptions="Start" Spacing="60" HorizontalOptions="End">
+                <Label FontFamily="KanitRegular" HorizontalTextAlignment="End" Text="{Binding Price, StringFormat='{0:F2} rsd'}" StyleClass="title" TextColor="DimGray"/>
+
+                    <HorizontalStackLayout>
+                    <CollectionView ItemsSource="{Binding Restrictions}" ItemsLayout="HorizontalList" FlowDirection="RightToLeft">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Image WidthRequest="35" HeightRequest="35">
+                                    <Image.Triggers>
+                                        <DataTrigger TargetType="Image" Binding="{Binding Name}" Value="No smoking">
+                                            <Setter Property="Source" Value="nosmoking.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Image" Binding="{Binding Name}" Value="No pets">
+                                            <Setter Property="Source" Value="nopets.png"/>
+                                        </DataTrigger>
+                                    </Image.Triggers>
+                                </Image>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </HorizontalStackLayout>
+            </StackLayout>
+            
+        </FlexLayout>
+    </Border>
+
+
+</ContentView>

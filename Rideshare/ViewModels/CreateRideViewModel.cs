@@ -22,20 +22,19 @@ namespace Rideshare.ViewModels
         public ObservableCollection<CarDto> Cars { get; set; }
         public ICommand CreateRideCommand { get; set; }
         public DateTime Today => DateTime.Now;
-        public CityDto StartCity { get; set; } 
-        public CityDto DestinationCity { get; set; } 
-        public CarDto Car { get; set; } 
-        public decimal Price { get; set; } 
+        public CityDto StartCity { get; set; }
+        public CityDto DestinationCity { get; set; }
+        public CarDto Car { get; set; }
+        public decimal Price { get; set; }
         public DateTime Date { get; set; } 
         public CreateRideViewModel() 
         {
             _cityService = new CityService();
             _carService = new CarService();
             _rideService = new RideService();
-
+            GetCars();
             CreateRideCommand = new Command(CreateRide);
             GetCities();
-            GetCars();
         }
         public async void CreateRide()
         {
@@ -64,12 +63,17 @@ namespace Rideshare.ViewModels
 
             await snackbar.Show();
         }
-        private async void GetCars()
+        public async void GetCars()
         {
            var cars = await _carService.GetCars();
-            Cars = new ObservableCollection<CarDto>(cars);
+            if(cars != null)
+            {
+                Cars = new ObservableCollection<CarDto>(cars);
+                OnPropertyChanged(nameof(Cars));
+            }
+          
 
-            OnPropertyChanged(nameof(Cars));
+            
         }
 
         private void GetCities()

@@ -12,18 +12,18 @@
     <VerticalStackLayout
         Padding="20"
         Spacing="15">
+        <Image Source="login.jpg"/>
         <Label 
             Text="What's your email and password?"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
         <Entry x:Name="Email" Text="{Binding Email.Value}" Placeholder="Email" FontFamily="KanitRegular" Keyboard="Email" ReturnType="Next"/>
-        <Label Text="{Binding Email.Error}" TextColor="Red"/>
+
         <Entry x:Name="Password" Text="{Binding Password.Value}" IsPassword="True" Placeholder="Password" Keyboard="Default" FontFamily="KanitRegular" ReturnType="Done"/>
 
-        <Label Text="{Binding Password.Error}" TextColor="Red"/>
         <Label Text="{Binding InvalidCredentials}" TextColor="Red"/>
-        <Button Text="Log in" Command="{Binding LoginCommand}" IsEnabled="{Binding IsLoginButtonEnabled}" />
+        <Button Text="Log in" Command="{Binding LoginCommand}"/>
         
     </VerticalStackLayout>
 </ContentPage>

@@ -14,6 +14,7 @@ namespace Rideshare.Business.DTOs
         public string LicencePlate { get; set; }
         public int ColorId { get; set; }
         public int TypeId { get; set; }
+        public int NumberOfSeats { get; set; }
         public IEnumerable<RestrictionDto> Restrictions { get; set; }
     }
 }

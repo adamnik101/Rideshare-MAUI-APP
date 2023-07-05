@@ -37,6 +37,8 @@ namespace Rideshare.ViewModels
         public MProp<DateTime> Date { get; set; } = new MProp<DateTime>();
         public MProp<CityDto> StartCity { get; set; } = new MProp<CityDto>();
         public MProp<CityDto> DestinationCity { get; set; } = new MProp<CityDto>();
+        public MProp<string> Password { get; set; } = new MProp<string>();
+        public MProp<string> Phone { get; set; } = new MProp<string>();
         public string SelectedDateFormat { get; set; }
         public string SelectedStartCity { get; set; }
         public string SelectedDestinationCity { get; set; }
@@ -82,8 +84,8 @@ namespace Rideshare.ViewModels
 
                 var dateError = result.Errors.FirstOrDefault(x => x.PropertyName.Contains("Date"));
                 if(dateError != null) Date.Error = dateError.ErrorMessage;
-            }
 
+            }
             OnPropertyChanged(nameof(IsSearchButtonEnabled));
         }
         private void GetCities()
@@ -118,7 +120,7 @@ namespace Rideshare.ViewModels
             IsPreviousButtonEnabled = PagedResponse.CurrentPage > 1;
             
             Rides = new ObservableCollection<RideDto>(rides.Items.ToList());
-            if(rides.Items.Count() > 0)
+            if(rides.Items.Any())
             {
                 HasRides = true;
                 NoItemsToShow = false;

@@ -29,33 +29,35 @@
             <Entry Text="{Binding PhoneNumber.Value}" Placeholder="Phone number" Keyboard="Numeric"/>
             <Label Text="{Binding PhoneNumber.Error}" TextColor="Red" IsVisible="{Binding PhoneNumber.HasError}" FontFamily="KanitRegular"/>
             
-            <Entry Placeholder="Password" IsPassword="True" />
-            <Label Text="Invalid credentials" TextColor="Red" IsVisible="False" FontFamily="KanitRegular"/>
+            <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password.Value}"/>
+            <Label Text="{Binding Password.Error}" TextColor="Red" IsVisible="{Binding Password.HasError}" />
 
             <HorizontalStackLayout>
                 <Label Text="Date of birth:" FontFamily="KanitRegular" VerticalOptions="Center"/>
-                <DatePicker VerticalOptions="Center" MaximumDate="{Binding MaximumDate}" MinimumDate="{Binding MinimumDate}"/>
+                <DatePicker VerticalOptions="Center" MaximumDate="{Binding MaximumDate}" MinimumDate="{Binding MinimumDate}" Date="{Binding DateOfBirth.Value}"/>
+                <Label Text="{Binding DateOfBirth.Error}" TextColor="Red" IsVisible="{Binding DateOfBirth.HasError}"/>
             </HorizontalStackLayout>
             
             <Label Text="Gender:" FontFamily="KanitRegular"/>
-            <RadioButton
-            GroupName="gender" 
-            FontFamily="KanitRegular"
-            Content="Male"
-            Value="m"/>
 
-            <RadioButton 
-            GroupName="gender" 
-            FontFamily="KanitRegular"
-            Content="Female"
-            Value="f"/>
+
+            <CollectionView ItemsSource="{Binding Genders}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton GroupName="gender" FontFamily="KanitRegular" Content="{Binding Name}" Value="{Binding Id}"/>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
 
             <HorizontalStackLayout
                 HorizontalOptions="Start">
                 <CheckBox IsChecked="{Binding AgreedWithTerms.Value}"/>
                 <Label VerticalTextAlignment="Center" Text="I agree with terms and conditions" FontFamily="KanitRegular"/>
             </HorizontalStackLayout>
-            <Button Text="Done" IsEnabled="{Binding IsRegisterButtonEnabled}"/>
+            <Button Text="Done" Command="{Binding RegisterCommand}"/>
         </VerticalStackLayout>
     </ScrollView>
    

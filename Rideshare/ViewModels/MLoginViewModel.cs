@@ -19,9 +19,7 @@ namespace Rideshare.ViewModels
     {
         public MLoginViewModel()
         {
-            Email.OnValueChange = Validate;
-            Password.OnValueChange = Validate;
-
+          
             Email.Value = "";
 
             LoginCommand = new Command(Login);
@@ -51,31 +49,6 @@ namespace Rideshare.ViewModels
         public string InvalidCredentials { get; set; }
         public ICommand LoginCommand { get; set; }
 
-        public bool IsLoginButtonEnabled => !Email.HasError && !Password.HasError;
-
-        private void Validate() 
-        {
-            var validator = new LoginViewModelValidator();
-
-            ValidationResult result = validator.Validate(this);
-
-            Email.Error = string.Empty;
-            Password.Error = string.Empty;
-            
-            if (!result.IsValid)
-            {
-                var passwordError = result.Errors.FirstOrDefault(x => x.PropertyName.Contains("Password"));
-
-                if (passwordError != null) Password.Error = passwordError.ErrorMessage;
-               
-                var emailError = result.Errors.FirstOrDefault(x => x.PropertyName.Contains("Email"));
-
-                if (emailError != null) Email.Error = emailError.ErrorMessage;
-                
-            }
-
-            OnPropertyChanged(nameof(IsLoginButtonEnabled));
-        }
 
 
     }

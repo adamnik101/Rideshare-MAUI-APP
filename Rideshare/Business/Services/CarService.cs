@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Rest;
+using Newtonsoft.Json;
 using RestSharp;
 using Rideshare.Business.DTOs;
 using System;
@@ -15,7 +16,7 @@ namespace Rideshare.Business.Services
         {
 
         }
-        public async Task<List<CarDto>> GetCars()
+        public async Task<IEnumerable<CarDto>> GetCars()
         {
             var actor = await SecureStorage.Default.GetActor();
 
@@ -25,17 +26,33 @@ namespace Rideshare.Business.Services
 
             request.AddHeader("Authorization","Bearer " + actor.Token);
             
-            var response = Client.Get<List<CarDto>>(request);
+            var response = Client.Get<IEnumerable<CarDto>>(request);
 
             return response;
         }
-        public async void AddCar(AddCarDto requestData)
+        public async Task<bool> AddCar(AddCarDto requestData)
         {
             var actor = await SecureStorage.Default.GetActor();
 
             var endpoint = $"cars";
             var request = new RestRequest(endpoint);
             request.AddHeader("Authorization", "Bearer " + actor.Token);
+            request.AddJsonBody(requestData);
+            try
+            {
+                var response = Client.Post(request);
+                if(response.StatusCode == System.Net.HttpStatusCode.Created)
+                {
+                    return true;
+                }
+                var msg = response.ErrorMessage.ToString();
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
 
         }
     }

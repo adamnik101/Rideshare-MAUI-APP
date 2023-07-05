@@ -18,7 +18,9 @@ namespace Rideshare.ViewModels
         private CarService _carService;
         private Actor _actor;
         
-        public ObservableCollection<CarDto> Cars { get; set; } = new ObservableCollection<CarDto>();
+        public ObservableCollection<CarDto> Cars { get; set; }
+        public bool HasCars { get; set; }
+        public bool DoesntHaveCars { get; set; }
         public CarsViewModel()
         {
             _carService = new CarService();
@@ -31,14 +33,26 @@ namespace Rideshare.ViewModels
             _actor = await SecureStorage.Default.GetActor();
             await GetCars();
         }
-        private async Task GetCars()
+        public async Task GetCars()
         {
 
             var cars = await _carService.GetCars();
 
-            Cars = new ObservableCollection<CarDto>(cars);
-
-            OnPropertyChanged(nameof(Cars));
+            if(cars != null)
+            {
+                Cars = new ObservableCollection<CarDto>(cars);
+                OnPropertyChanged(nameof(Cars));
+                HasCars = true;
+                DoesntHaveCars = false;
+            }
+            else
+            {
+                HasCars = false;
+                DoesntHaveCars = true;
+            }
+            OnPropertyChanged(nameof(HasCars));
+            OnPropertyChanged(nameof(DoesntHaveCars));
+            
         }
     }
 }

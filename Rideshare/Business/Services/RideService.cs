@@ -15,6 +15,8 @@ namespace Rideshare.Business.Services
 
         public async Task<PagedResponse<RideDto>> GetRides(PagedReponseDto pagedResponse, SearchRide searchRequest)
         {
+            var actor = await SecureStorage.Default.GetActor();
+            
             var endpoint = "rides";
             var request = new RestRequest(endpoint);
             if(pagedResponse != null)
@@ -22,7 +24,11 @@ namespace Rideshare.Business.Services
                 request.AddQueryParameter("PerPage", pagedResponse.ItemsPerPage); 
                 request.AddQueryParameter("Page", pagedResponse.CurrentPage);
             }
-            
+            if (actor != null)
+            {
+                request.AddHeader("Authorization", $"Bearer {actor.Token}");
+            }
+
             request.AddQueryParameter("StartCity", searchRequest.StartCity);
             request.AddQueryParameter("DestinationCity", searchRequest.DestinationCity);
             request.AddQueryParameter("RideDate", searchRequest.RideDate);

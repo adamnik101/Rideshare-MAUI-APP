@@ -13,6 +13,8 @@
         Spacing="15"
         Padding="20">
             <VerticalStackLayout>
+                <Label Text="Where do you want to go?" HorizontalTextAlignment="Center" FontFamily="KanitBold"/>
+                <Image Source="searching.png"/>
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="45"/>

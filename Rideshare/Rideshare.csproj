@@ -63,13 +63,18 @@
 	  <None Remove="Resources\Images\destination_1.svg" />
 	  <None Remove="Resources\Images\destination_2.svg" />
 	  <None Remove="Resources\Images\distance.svg" />
+	  <None Remove="Resources\Images\driving.svg" />
+	  <None Remove="Resources\Images\garage.jpg" />
+	  <None Remove="Resources\Images\login.jpg" />
 	  <None Remove="Resources\Images\main.svg" />
+	  <None Remove="Resources\Images\man.jpg" />
 	  <None Remove="Resources\Images\nopets.svg" />
 	  <None Remove="Resources\Images\nosmoking.svg" />
 	  <None Remove="Resources\Images\pin.svg" />
 	  <None Remove="Resources\Images\profile.svg" />
 	  <None Remove="Resources\Images\route.svg" />
 	  <None Remove="Resources\Images\search.svg" />
+	  <None Remove="Resources\Images\searching.png" />
 	  <None Remove="Resources\Images\sign.svg" />
 	  <None Remove="Resources\Images\splash.png" />
 	</ItemGroup>

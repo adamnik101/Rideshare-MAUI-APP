@@ -8,35 +8,73 @@
     <ContentPage.BindingContext>
         <viewModel:AddCarViewModel/>
     </ContentPage.BindingContext>
-    <ScrollView Padding="15">
-        
+    <ScrollView>
         <VerticalStackLayout>
-            <Picker ItemsSource="{Binding Brands}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedBrand}" Title="Select car brand" HorizontalTextAlignment="Center"/>
-            <Picker ItemsSource="{Binding Models}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedModel}" Title="Select brand model" HorizontalTextAlignment="Center" IsEnabled="{Binding IsBrandSelected}"/>
-            <Entry Text="{Binding LicencePlate.Value}" Placeholder="ex: BG-001-BG" HorizontalTextAlignment="Center"/>
-            <Picker ItemsSource="{Binding Colors}" SelectedItem="{Binding SelectedColor.Value}" ItemDisplayBinding="{Binding Name}" Title="Select color" HorizontalTextAlignment="Center"/>
-            <Picker ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType.Value}" ItemDisplayBinding="{Binding Name}" Title="Select car type" HorizontalTextAlignment="Center"/>
-            <Picker ItemsSource="{Binding NumberOfSeats}" SelectedItem="{Binding SelectedNumberOfSeats.Value}" Title="Number of available seats" HorizontalTextAlignment="Center"/>
-            <Picker ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear.Value}" Title="First registration" HorizontalTextAlignment="Center"/>
-            <CollectionView ItemsSource="{Binding Restrictions}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+            <Grid Padding="10" RowSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label VerticalTextAlignment="Center" Grid.Row="0" Grid.Column="0" Text="Brand:"/>
+                <Picker Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Brands}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedBrand.Value}" Title="Select car brand" HorizontalTextAlignment="Center"/>
+                <Label Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding SelectedBrand.Error}" IsVisible="{Binding SelectedBrand.HasError}" TextColor="Red"/>
+                <Label VerticalTextAlignment="Center" Grid.Row="2" Grid.Column="0" Text="Model:"/>
+                <Picker Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Models}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedModel.Value}" Title="Select brand model" HorizontalTextAlignment="Center" IsEnabled="{Binding IsBrandSelected}"/>
+                <Label Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding SelectedModel.Error}" IsVisible="{Binding SelectedModel.HasError}" TextColor="Red"/>
+                <Label VerticalTextAlignment="Center" Grid.Row="4" Grid.Column="0" Text="Plate:"/>
+                <Entry Grid.Row="4" Grid.Column="1" Text="{Binding LicencePlate}" Placeholder="ex: BG-001-BG" HorizontalTextAlignment="Center"/>
+                <Label Grid.Row="5" Grid.ColumnSpan="2" Text="{Binding LicencePlate.Error}" IsVisible="{Binding LicencePlate.HasError}" TextColor="Red"/>
+                <Label VerticalTextAlignment="Center" Grid.Row="6" Grid.Column="0" Text="Color:"/>
+                <Picker Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Colors}" SelectedItem="{Binding SelectedColor.Value}" ItemDisplayBinding="{Binding Name}" Title="Select color" HorizontalTextAlignment="Center"/>
+                <Label Grid.Row="7" Grid.ColumnSpan="2" Text="{Binding SelectedColor.Error}" IsVisible="{Binding SelectedColor.HasError}" TextColor="Red"/>
+                <Label VerticalTextAlignment="Center" Grid.Row="8" Grid.Column="0" Text="Type:"/>
+                <Picker Grid.Row="8" Grid.Column="1" ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType.Value}" ItemDisplayBinding="{Binding Name}" Title="Select car type" HorizontalTextAlignment="Center"/>
+                <Label Grid.Row="9" Grid.ColumnSpan="2" Text="{Binding SelectedType.Error}" IsVisible="{Binding SelectedType.HasError}" TextColor="Red"/>
+                <Label  VerticalTextAlignment="Center" Grid.Row="10" Grid.Column="0" Text="Seats:"/>
+                <Picker Grid.Row="10" Grid.Column="1" ItemsSource="{Binding NumberOfSeats}" SelectedItem="{Binding SelectedNumberOfSeats.Value}" Title="Number of available seats" HorizontalTextAlignment="Center"/>
+                <Label Grid.Row="11" Grid.ColumnSpan="2" Text="{Binding SelectedNumberOfSeats.Error}" IsVisible="{Binding SelectedNumberOfSeats.HasError}" TextColor="Red"/>
+                <Label VerticalTextAlignment="Center" Grid.Row="12" Grid.Column="0" Text="First registration:"/>
+                <Picker Grid.Row="12" Grid.Column="1" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear.Value}" Title="First registration" HorizontalTextAlignment="Center"/>
+                <Label Grid.Row="13" Grid.ColumnSpan="2" Text="{Binding SelectedYear.Error}" IsVisible="{Binding SelectedYear.HasError}" TextColor="Red"/>
+                <CollectionView ItemsSource="{Binding Restrictions}" Grid.Row="14" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                            <CheckBox IsChecked="{Binding IsChecked}" />
+                                <CheckBox IsChecked="{Binding IsChecked}" />
 
-                            <Label Grid.Column="1" Text="{Binding Name}" VerticalTextAlignment="Center"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            <Button Text="Add car" Command="{Binding AddCarCommand}"/>
-            <Button Text="Close modal" Clicked="Button_Clicked" />
+                                <Label Grid.Column="1" Text="{Binding Name}" VerticalTextAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button Grid.Row="15" Grid.ColumnSpan="2" Text="Add car" Command="{Binding AddCarCommand}"/>
+                <Button Grid.Row="16" Grid.ColumnSpan="2" Text="Close modal" Clicked="Button_Clicked" />
+            </Grid>
         </VerticalStackLayout>
-        
+       
     </ScrollView>
+    
 </ContentPage>

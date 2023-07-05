@@ -4,8 +4,8 @@
              x:Class="Rideshare.Pages.LoggedInPage"
             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
             android:TabbedPage.ToolbarPlacement="Bottom"
+         
             xmlns:local="clr-namespace:Rideshare.Pages">
-
     <local:SearchPage Title="Search Rides" IconImageSource="search.svg"/>
     <local:CreateRidePage Title="Create Ride" IconImageSource="route.svg"/>
     <local:ManageCarsPage Title="Manage cars" IconImageSource="car.svg"/>

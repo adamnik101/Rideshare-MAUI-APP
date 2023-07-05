@@ -9,6 +9,7 @@ using Microsoft.Rest;
 using Newtonsoft.Json;
 using RestSharp;
 using Rideshare.Business;
+using Rideshare.Business.DTOs;
 
 namespace Rideshare.Business.Services
 {
@@ -61,6 +62,29 @@ namespace Rideshare.Business.Services
             }*/
 
             
+        }
+        public bool Register(RegisterData data)
+        {
+            var endpoint = "users";
+            var request = new RestRequest(endpoint);
+            request.AddJsonBody(data);
+
+            try
+            {
+                var response = Client.Post(request);
+
+                if(response.StatusCode == HttpStatusCode.Created)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch(Exception ex)
+            {
+                var exs = ex;
+                return false;
+            }
         }
     }
 }

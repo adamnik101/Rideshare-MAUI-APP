@@ -9,18 +9,31 @@
     <ContentPage.BindingContext>
         <local:CarsViewModel />
     </ContentPage.BindingContext>
-    <VerticalStackLayout
-        Spacing="15"
-        Padding="15">
+    <ScrollView>
+        <VerticalStackLayout
+        Spacing="15" Padding="10">
 
-        <Button Text="Add new car" Clicked="Button_Clicked"/>
-        <CollectionView ItemsSource="{Binding Cars}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <components:Car BrandModel="{Binding BrandModel}" LicencePlate="{Binding LicencePlate}" NumberOfSeats="{Binding NumberOfSeats}"/>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        
-    </VerticalStackLayout>
+            <VerticalStackLayout IsVisible="{Binding DoesntHaveCars}">
+                <Image Source="garage.jpg" Aspect="AspectFill"/>
+
+                <Label Text="Your ride share journey begins here!" HorizontalTextAlignment="Center" Margin="0,15"/>
+                <Label Text="Start by adding your preferred rides!" HorizontalTextAlignment="Center" FontFamily="KanitBold"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+
+                <Button Text="Add new car" Clicked="Button_Clicked"/>
+                <CollectionView ItemsSource="{Binding Cars}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <components:Car BrandModel="{Binding BrandModel}" LicencePlate="{Binding LicencePlate}" NumberOfSeats="{Binding NumberOfSeats}"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+   
 </ContentPage>

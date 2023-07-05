@@ -1,6 +1,9 @@
-﻿using Rideshare.Business.DTOs;
+﻿using FluentValidation.Results;
+using Rideshare.Business.DTOs;
 using Rideshare.Business.Services;
 using Rideshare.Common;
+using Rideshare.Pages;
+using Rideshare.Validators;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +16,8 @@ namespace Rideshare.ViewModels
 {
     public class AddCarViewModel : BaseViewModel
     {
-        private BrandDto _selectedBrand;
+        private CarService _carService;
+        private MProp<BrandDto> _selectedBrand;
         private BrandService _brandService;
         private ColorService _colorService;
         private RestrictionService _restrictionService;
@@ -29,6 +33,7 @@ namespace Rideshare.ViewModels
         public MProp<string> LicencePlate { get; set; } = new MProp<string>();
         public MProp<int> SelectedYear { get; set; } = new MProp<int>();
         public MProp<BaseDto> SelectedColor { get; set; } = new MProp<BaseDto>();
+        public MProp<BaseDto> SelectedModel { get; set; } = new MProp<BaseDto>();
         public MProp<BaseDto> SelectedType { get; set; } = new MProp<BaseDto>();
         public MProp<IEnumerable<BaseDto>> SelectedRestrictions { get; set; } = new MProp<IEnumerable<BaseDto>>();
         public List<int> Years 
@@ -50,16 +55,18 @@ namespace Rideshare.ViewModels
         }
         
         public ICommand AddCarCommand { get; set; }
-        public BrandDto SelectedBrand
+        public MProp<BrandDto> SelectedBrand
         {
             get {
-                return _selectedBrand; }
+                return _selectedBrand;
+            }
             set 
             {
-                _selectedBrand = value;
-                OnPropertyChanged(nameof(SelectedBrand));
-                OnPropertyChanged(nameof(IsBrandSelected));
-                FindBrandModels();
+                    _selectedBrand = value;
+                    FindBrandModels();
+                    OnPropertyChanged(nameof(SelectedBrand));
+                    OnPropertyChanged(nameof(IsBrandSelected));
+                
             }
         }
         private List<int> GenerateYears()
@@ -76,11 +83,10 @@ namespace Rideshare.ViewModels
             return years;
         }
 
-        public BaseDto SelectedModel { get; set; }
-        public bool IsBrandSelected => SelectedBrand != null;
-
+        public bool IsBrandSelected => SelectedBrand.Value != null;
         public AddCarViewModel()
         {
+            _carService = new CarService();
             InitializeServices();
             GetInitialPageData();
             AddCarCommand = new Command(AddCar);
@@ -112,7 +118,7 @@ namespace Rideshare.ViewModels
         private async void GetColors()
         {
             var colors = await _colorService.GetColors();
-            Colors = new ObservableCollection<BaseDto>(colors.Items.ToList());
+            Colors = new ObservableCollection<BaseDto>(colors.Items);
             OnPropertyChanged(nameof(Colors));
         }
 
@@ -123,8 +129,10 @@ namespace Rideshare.ViewModels
             OnPropertyChanged(nameof(Types));
         }
 
-        private void AddCar()
+        private async void AddCar()
         {
+            Validate();
+            
             var all = new List<string>();
             foreach (var restriction in Restrictions)
             {
@@ -133,26 +141,62 @@ namespace Rideshare.ViewModels
                     all.Add(restriction.Name);
                 }
             }
-            var selectedBrand = SelectedBrand;
-            var selectedModel = SelectedModel;
-            var selectedDate = SelectedYear;
-            var selectednumber = SelectedNumberOfSeats;
-            var color = SelectedColor;
-            var type = SelectedType;
-            var licence = LicencePlate;
 
             var addCarRequest = new AddCarDto
             {
-                BrandId = SelectedBrand.Id,
-                ModelId = SelectedModel.Id,
+                BrandId = SelectedBrand.Value.Id,
+                ModelId = SelectedModel.Value.Id,
                 FirstRegistration = SelectedYear.Value,
                 LicencePlate = LicencePlate.Value,
                 ColorId = SelectedColor.Value.Id,
-                TypeId = SelectedType.Value.Id
+                TypeId = SelectedType.Value.Id,
+                NumberOfSeats = SelectedNumberOfSeats.Value,
             };
 
+            var response = await _carService.AddCar(addCarRequest);
+
+            if (response == true)
+            {
+                
+            }
+        }
+        public void Validate()
+        {
+            var validator = new AddCarViewModelValidator();
+
+            ValidationResult result = validator.Validate(this);
+
+            SelectedModel.Error = string.Empty;
+            SelectedBrand.Error = string.Empty;
+            SelectedColor.Error = string.Empty;
+            SelectedNumberOfSeats.Error = string.Empty;
+            SelectedType.Error = string.Empty;
+            SelectedYear.Error = string.Empty;
+            LicencePlate.Error = string.Empty;
             
-            
+            if (!result.IsValid)
+            {
+                var modelError = result.Errors.FirstOrDefault(x => x.PropertyName.Contains("SelectedModel"));
+                if (modelError != null) SelectedModel.Error = modelError.ErrorMessage;
+
+                var brandError = result.Errors.FirstOrDefault(x => x.PropertyName.Contains("SelectedBrand"));
+                if (brandError != null) SelectedBrand.Error = brandError.ErrorMessage;
+
+                var colorError = result.Errors.FirstOrDefault(x => x.PropertyName.Contains("SelectedColor"));
+                if (colorError != null) SelectedColor.Error = colorError.ErrorMessage;
+
+                var seatsError = result.Errors.FirstOrDefault(x => x.PropertyName.Contains("SelectedNumberOfSeats"));
+                if (seatsError != null) SelectedNumberOfSeats.Error = seatsError.ErrorMessage;
+
+                var typeError = result.Errors.FirstOrDefault(x => x.PropertyName.Contains("SelectedType"));
+                if (typeError != null) SelectedType.Error = typeError.ErrorMessage;
+
+                var yearError = result.Errors.FirstOrDefault(x => x.PropertyName.Contains("FirstRegistration"));
+                if (yearError != null) SelectedYear.Error = yearError.ErrorMessage;
+
+                var licenceError = result.Errors.FirstOrDefault(x => x.PropertyName.Contains("LicencePlate"));
+                if (licenceError != null) SelectedYear.Error = licenceError.ErrorMessage;
+            }
         }
         public async void GetBrands()
         {
@@ -162,7 +206,7 @@ namespace Rideshare.ViewModels
         }
         public void FindBrandModels()
         {
-            Models = new ObservableCollection<BaseDto>(SelectedBrand.Models);
+            Models = new ObservableCollection<BaseDto>(SelectedBrand.Value.Models);
             OnPropertyChanged(nameof(Models));
         }
     }

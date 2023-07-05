@@ -1,5 +1,6 @@
 ﻿using Rideshare.Business;
 using Rideshare.Pages;
+using Rideshare.Pages.Auth;
 
 namespace Rideshare;
 

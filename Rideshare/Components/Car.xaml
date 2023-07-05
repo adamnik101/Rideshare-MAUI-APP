@@ -16,7 +16,7 @@
             </Grid.ColumnDefinitions>
 
             
-            <Label Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding BrandModel}" BindingContext="{x:Reference CarComponent}"/>
+            <Label Grid.Row="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" Text="{Binding BrandModel}" BindingContext="{x:Reference CarComponent}"/>
 
             <Label Grid.Row="1" Grid.Column="0" Text="License plate:"/>
             <Label Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding LicencePlate}" BindingContext="{x:Reference CarComponent}"/>

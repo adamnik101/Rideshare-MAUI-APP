@@ -7,42 +7,50 @@
     <ContentPage.BindingContext>
         <viewModels:CreateRideViewModel/>
     </ContentPage.BindingContext>
-    <Grid Padding="15" RowSpacing="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="85"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Label 
-            Text="Where do you want to go?" Grid.Row="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center"/>
+    <VerticalStackLayout>
+        <Label Margin="0,20" Text="Where do you want to go?" HorizontalTextAlignment="Center" FontFamily="KanitBold"/>
+            <Image Source="driving.jpg" Aspect="AspectFill" HeightRequest="150" Margin="0,0,0,25"/>
 
-        <Label Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Center" Text="Start city:"/>
-        <Picker Grid.Row="1" Grid.Column="1" Title="Select start city" SelectedItem="{Binding StartCity}"
+        
+        <Grid Padding="15" RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="85"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+
+            <Label Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" Text="Start city:"/>
+            <Picker Grid.Row="0" Grid.Column="1" Title="Select start city" SelectedItem="{Binding StartCity}"
         ItemsSource="{Binding Cities}"
                 ItemDisplayBinding="{Binding Name}"/>
 
-        <Label Grid.Row="2" Grid.Column="0" Text="End city:" VerticalOptions="Center"/>
-        <Picker Grid.Row="2" Grid.Column="1" Title="Select destination city" SelectedItem="{Binding DestinationCity}"
+            <Label Grid.Row="1" Grid.Column="0" Text="End city:" VerticalOptions="Center"/>
+            <Picker Grid.Row="1" Grid.Column="1" Title="Select destination city" SelectedItem="{Binding DestinationCity}"
         ItemsSource="{Binding Cities}"
                 ItemDisplayBinding="{Binding Name}"/>
 
-        <Label Grid.Row="3" Grid.Column="0" VerticalTextAlignment="Center" Text="Your car:"/>
-        <Picker Grid.Row="3" Grid.Column="1" Title="Select your car" ItemsSource="{Binding Cars}" ItemDisplayBinding="{Binding BrandModel}" SelectedItem="{Binding Car}"/>
-        
-        <Label Grid.Row="4" Grid.Column="0" Text="Start date:" VerticalTextAlignment="Center"/>
-        <DatePicker Grid.Row="4" Grid.Column="1" MinimumDate="{Binding Today}" Date="{Binding Date}"/>
-        
-        <Label Grid.Row="5" Grid.Column="0" Text="Price:" VerticalTextAlignment="Center"/>
-        <Entry Grid.Row="5" Grid.Column="1" Placeholder="Price" Keyboard="Numeric" Text="{Binding Price}"/>
-        
-        <Button Grid.Row="6" Grid.ColumnSpan="2" Text="Create ride" Command="{Binding CreateRideCommand}"/>
-    </Grid>
+            <Label Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center" Text="Your car:"/>
+            <Picker Grid.Row="2" Grid.Column="1" Title="Select your car" ItemsSource="{Binding Cars}" ItemDisplayBinding="{Binding BrandModel}" SelectedItem="{Binding Car}"/>
+                
+            <Label Grid.Row="3" Grid.Column="0" Text="Start date:" VerticalTextAlignment="Center"/>
+            <DatePicker Grid.Row="3" Grid.Column="1" MinimumDate="{Binding Today}" Date="{Binding Date}"/>
+
+            <Label Grid.Row="4" Grid.Column="0" Text="Price:" VerticalTextAlignment="Center"/>
+            <Entry Grid.Row="4" Grid.Column="1" Placeholder="Price" Keyboard="Numeric" Text="{Binding Price}"/>
+
+            <Button Grid.Row="5" Grid.ColumnSpan="2" Text="Create ride" Command="{Binding CreateRideCommand}"/>
+        </Grid>
+    </VerticalStackLayout>
+    
 </ContentPage>
